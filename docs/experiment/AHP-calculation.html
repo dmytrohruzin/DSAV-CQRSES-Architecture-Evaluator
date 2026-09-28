@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heatmap Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        canvas {
+            width: 1000px;
+            height: 1000px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Heatmap Chart</h2>
+    <canvas id="heatmapChart"></canvas>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const commands = 41
+            const queries = 19
+            const additionNew = 0.5
+            const modificationOld = 0.5
+
+            const isComplexity = {
+                commandDevelopment: commands + additionNew * commands,
+                commandModification: modificationOld * commands,
+                queryDevelopment: queries + additionNew * queries,
+                queryModification: modificationOld * queries,
+            }
+
+            const isTotalComplexity = Object.values(isComplexity).reduce((sum, value) => sum + value, 0)
+
+            const isComplexityNorm = Object.keys(isComplexity).reduce((agg, key) => ({
+                ...agg, [key]: (isComplexity[key]) / isTotalComplexity
+            }), {})
+
+            if (Object.values(isComplexityNorm).reduce((sum, value) => sum + value, 0) !== 1) {
+                console.warn('Normalization failed isComplexityNorm')
+            }
+
+            const classicalCQRS = {
+                read: 5,
+                write: 2.9,
+                commandDevelopment: 77.30,
+                commandModification: 58.95,
+                queryDevelopment: 29.91,
+                queryModification: 24.64,
+            }
+
+            const mCQRS = {
+                read: 5,
+                write: 3.68,
+                commandDevelopment: 70.85,
+                commandModification: 45.56,
+                queryDevelopment: 27.91,
+                queryModification: 22.64,
+            }
+
+            const classicalCQRSNorm = Object.keys(classicalCQRS).reduce((agg, key) => ({
+                ...agg, [key]: (1/classicalCQRS[key]) / (1/classicalCQRS[key] + 1/mCQRS[key]),
+            }), {})
+
+            const mCQRSNorm = Object.keys(classicalCQRS).reduce((agg, key) => ({
+                ...agg, [key]: (1/mCQRS[key]) / (1/classicalCQRS[key] + 1/mCQRS[key]),
+            }), {})
+
+            Object.keys(classicalCQRS).forEach(key => {
+                if (mCQRSNorm[key] + classicalCQRSNorm[key] !== 1) {
+                    console.warn('Normalization failed', key)
+                }
+            })
+
+            console.log(mCQRSNorm, classicalCQRSNorm)
+
+            const matrix = Array.from(Array(100), () => new Array(100));
+
+            let mCQRSSuggestions = 0
+            let classicalCQRSSuggestions = 0
+
+            for (let i = 0; i < 100; i++) {
+                for (let j = 0; j < 100; j++) {
+                    const perfCoef = 0.01 * (i + 1)
+                    const complCoef = 1 - perfCoef
+                    const readPer = 0.01 * (j + 1)
+                    const writePer = 1 - readPer
+
+                    const isCase = Object.keys(isComplexityNorm).reduce((agg, key) => ({
+                        ...agg, [key]: isComplexityNorm[key] * complCoef
+                    }), {
+                        read: readPer * perfCoef,
+                        write: writePer * perfCoef,
+                    })
+
+                    const classicalCQRSApplication = Object.keys(isCase).reduce((agg, key) => ({
+                        ...agg, [key]: classicalCQRSNorm[key] * isCase[key]
+                    }), {})
+
+                    const mCQRSApplication = Object.keys(isCase).reduce((agg, key) => ({
+                        ...agg, [key]: mCQRSNorm[key] * isCase[key]
+                    }), {})
+
+                    const classicalCQRSResult = Math.round((Object.values(classicalCQRSApplication).reduce((sum, value) => sum + value, 0)) * 100)
+                    const mCQRSResult = Math.round((Object.values(mCQRSApplication).reduce((sum, value) => sum + value, 0)) * 100)
+
+                    if (mCQRSResult + classicalCQRSResult !== 100) {
+                        console.warn('Normalization failed result', mCQRSResult + classicalCQRSResult)
+                    }
+
+                    matrix[i][j] = mCQRSResult
+                    
+                    if (mCQRSResult > 50) mCQRSSuggestions++
+                    if (classicalCQRSResult > 50) classicalCQRSSuggestions++
+                }
+            }
+
+            console.log('mCQRSSuggestions', mCQRSSuggestions)
+            console.log('classicalCQRSSuggestions', classicalCQRSSuggestions)
+
+            const ctx = document.getElementById("heatmapChart").getContext("2d");
+            
+            const xLabels = Array.from(Array(100), (_, i) => i);
+            const yLabels = Array.from(Array(100), (_, i) => i);
+
+            const data = [];
+            for (let x = 0; x < xLabels.length; x++) {
+                for (let y = 0; y < yLabels.length; y++) {
+                    data.push({
+                        x: x,
+                        y: y,
+                        v: Math.floor(matrix[x][y])
+                    });
+                }
+            }
+
+            console.log(data)
+
+            new Chart(ctx, {
+                type: "matrix",
+                data: {
+                    datasets: [{
+                        label: "Heatmap",
+                        data: data,
+                        backgroundColor(context) {
+                            const item = context.dataset.data[context.dataIndex];
+                            if (!item) return "rgba(255, 255, 255, 1)";
+                            const color = item.v >= 50 ? '0, 255, 0' : '255, 0, 0' 
+                            const alpha = item.v >= 50 ? (item.v - 50) / 20 : (50 - item.v) / 20;
+                            return `rgba(${color}, ${alpha})`;
+                        },
+                        borderWidth: 0,
+                        width(context) {
+                            return 5;
+                        },
+                        height(context) {
+                            return 5;
+                        }
+                    }]
+                },
+                options: {
+                    aspectRatio: 1,
+                    scales: {
+                        x: {
+                            title: "perf"
+                        },
+                        y: {
+                            reverse: false,
+                            title: "read"
+                        }
+                    },
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: (context) => {
+                                const xIndex = context[0].raw.x;
+                                const yIndex = context[0].raw.y;
+                                return `📌 ${yLabels[yIndex]} - ${xLabels[xIndex]}`;
+                            },
+                            label: (context) => {
+                                const value = context.raw?.v ?? "N/A";
+                                return `Value: ${value}`;
+                            },
+                            afterLabel: () => "Click for details" // Additional hint
+                        }
+                    }
+                }
+                    
+            });
+        });
+    </script>
+</body>
+</html>

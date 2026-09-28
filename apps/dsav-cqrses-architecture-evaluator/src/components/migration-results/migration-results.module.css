@@ -1,0 +1,387 @@
+/* =============================================================================
+ * MigrationResults — Source/Target selectors, optimal path, steps, alternatives
+ * ============================================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Section Card                                                                */
+/* --------------------------------------------------------------------------- */
+
+.sectionCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.sectionHeader {
+  margin-bottom: var(--space-3);
+}
+
+.sectionTitle {
+  font-size: clamp(1.1rem, 0.9rem + 1vw, 1.35rem);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: var(--space-2);
+}
+
+.sectionBody {
+  /* No extra padding needed; sectionCard handles it */
+}
+
+/* --------------------------------------------------------------------------- */
+/* Placeholder (empty / initial state)                                         */
+/* --------------------------------------------------------------------------- */
+
+.placeholder {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Source / Target Selector Row                                                 */
+/* --------------------------------------------------------------------------- */
+
+.selectorRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.fieldLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.select {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color 0.15s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.fieldAction {
+  display: flex;
+  align-items: flex-end;
+}
+
+.findButton {
+  width: 100%;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.findButton:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.findButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Warning / Validation Messages                                               */
+/* --------------------------------------------------------------------------- */
+
+.warning {
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-warning-text, #92400e);
+  background: var(--color-warning-bg, #fef3c7);
+  border: 1px solid var(--color-warning-border, #fcd34d);
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------------------- */
+/* No-path Warning                                                             */
+/* --------------------------------------------------------------------------- */
+
+.noPath {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.875rem;
+  color: var(--color-warning-text, #92400e);
+  background: var(--color-warning-bg, #fef3c7);
+  border: 1px solid var(--color-warning-border, #fcd34d);
+  border-radius: var(--radius-sm);
+}
+
+.warningIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Optimal Path Header                                                         */
+/* --------------------------------------------------------------------------- */
+
+.optimalHeader {
+  margin-bottom: var(--space-3);
+}
+
+.optimalTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-1);
+}
+
+.optimalPath {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Total Effort                                                                */
+/* --------------------------------------------------------------------------- */
+
+.totalEffort {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-4);
+}
+
+.totalEffortLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.totalEffortValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--color-primary-dark);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Steps List                                                                  */
+/* --------------------------------------------------------------------------- */
+
+.stepsSection {
+  margin-bottom: var(--space-4);
+}
+
+.stepsTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--space-2);
+}
+
+.stepsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stepItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-background);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.stepNumber {
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--color-primary);
+  min-width: 1.5em;
+  flex-shrink: 0;
+}
+
+.stepRoute {
+  flex: 1;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.stepEffort {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  width: 100%;
+  padding-left: 1.5em;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Divider                                                                     */
+/* --------------------------------------------------------------------------- */
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-4) 0;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Alternative Paths                                                           */
+/* --------------------------------------------------------------------------- */
+
+.alternativesSection {
+  margin-top: var(--space-2);
+}
+
+.alternativesTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--space-2);
+}
+
+.noAlternatives {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.alternativesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.alternativeItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-background);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.alternativePath {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.alternativeEffort {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive — Tablet+ (768px)                                                */
+/* --------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .sectionCard {
+    padding: var(--space-6);
+  }
+
+  .selectorRow {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .field {
+    flex: 1;
+  }
+
+  .fieldAction {
+    flex: 0 0 auto;
+  }
+
+  .findButton {
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .stepItem {
+    flex-wrap: nowrap;
+  }
+
+  .stepEffort {
+    width: auto;
+    padding-left: 0;
+  }
+
+  .alternativeItem {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive — Desktop (1024px+)                                              */
+/* --------------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .sectionCard {
+    padding: var(--space-8);
+  }
+}

@@ -1,0 +1,210 @@
+/* =============================================================================
+ * Migration Roadmap Page — Layout & Responsive Styles
+ * ============================================================================= */
+
+.container {
+  padding: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+ * Page header
+ * -------------------------------------------------------------------------- */
+
+.heading {
+  font-size: clamp(1.5rem, 1rem + 2vw, 2rem);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-bottom: 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+/* --------------------------------------------------------------------------
+ * Sections
+ * -------------------------------------------------------------------------- */
+
+.section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --------------------------------------------------------------------------
+ * Graph visualizer wrapper — full width inside pathfinding section
+ * -------------------------------------------------------------------------- */
+
+.graphVisualizerWrapper {
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+ * Result summary card
+ * -------------------------------------------------------------------------- */
+
+.resultsSummary {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  margin-top: var(--space-4);
+}
+
+.summaryTitle {
+  font-size: clamp(1.1rem, 0.9rem + 1vw, 1.35rem);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: var(--space-2);
+}
+
+.summaryPath {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+  word-break: break-word;
+}
+
+.summaryEffort {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.summarySteps {
+  list-style: decimal;
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.summaryStep {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.stepEffort {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+ * Alternatives
+ * -------------------------------------------------------------------------- */
+
+.alternatives {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.alternativesTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.alternativesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.alternativeItem {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--color-background);
+  border-radius: var(--radius-sm);
+}
+
+.alternativeEffort {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-left: auto;
+}
+
+/* --------------------------------------------------------------------------
+ * No-path warning card
+ * -------------------------------------------------------------------------- */
+
+.noPathCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+  background: var(--color-warning-bg, #fff8e1);
+  border: 1px solid var(--color-warning-border, #ffc107);
+  border-radius: var(--radius-lg);
+  color: var(--color-warning-text, #795548);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.warningIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Tablet (768px+): more padding
+ * -------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .section {
+    padding: var(--space-6);
+  }
+
+  .container {
+    gap: var(--space-8);
+  }
+
+  .resultsSummary {
+    padding: var(--space-6);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Desktop (1024px+): more padding
+ * -------------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .section {
+    padding: var(--space-8);
+  }
+
+  .resultsSummary {
+    padding: var(--space-8);
+  }
+}

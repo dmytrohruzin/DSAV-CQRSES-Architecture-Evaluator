@@ -1,0 +1,536 @@
+/* =============================================================================
+ * GraphEditor — Node chips + Edge table (Tab 3, Sections 1-2)
+ * ============================================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Section Headers                                                             */
+/* --------------------------------------------------------------------------- */
+
+.sectionHeader {
+  font-size: clamp(1.1rem, 0.9rem + 1vw, 1.35rem);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: var(--space-2);
+}
+
+.sectionDescription {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Section 1: Variations (Node Chips)                                          */
+/* --------------------------------------------------------------------------- */
+
+.nodesSection {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  min-height: 36px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.chip:hover {
+  border-color: var(--color-primary-light);
+}
+
+.chipRemove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.chipRemove:hover {
+  color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.chipRemove:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 1px;
+}
+
+.emptyChips {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  padding: var(--space-2) 0;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Add Node Form                                                               */
+/* --------------------------------------------------------------------------- */
+
+.addNodeForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.addNodeField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.fieldLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.textInput {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+.textInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.textInputError {
+  border-color: var(--color-error);
+}
+
+.textInputError:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error) 25%, transparent);
+}
+
+.addButton {
+  padding: var(--space-2) var(--space-6);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.addButton:hover {
+  background: var(--color-primary-light);
+}
+
+.addButton:active {
+  transform: scale(0.98);
+}
+
+.addButton:focus-visible {
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: 2px;
+}
+
+.errorMessage {
+  font-size: 0.75rem;
+  color: var(--color-error);
+  margin-top: var(--space-1);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Section 2: Migration Edges                                                  */
+/* --------------------------------------------------------------------------- */
+
+.edgesSection {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+/* Edge table — hidden on mobile, visible at 768px+ */
+
+.desktopOnly {
+  display: none;
+}
+
+.mobileOnly {
+  display: block;
+}
+
+.edgeTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.edgeTable th {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.edgeTable th:nth-child(3) {
+  text-align: center;
+}
+
+.edgeTable th:nth-child(4) {
+  text-align: center;
+  width: 48px;
+}
+
+.edgeTable td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.centeredCell {
+  text-align: center;
+}
+
+.edgeRow {
+  transition: background-color 0.1s ease;
+}
+
+.edgeRow:hover {
+  background: var(--color-background);
+}
+
+/* Edge cards — mobile */
+
+.edgeCards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.edgeCard {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.edgeCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edgeCardLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.edgeCardField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* Shared edge input styles */
+
+.selectInput {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+  min-width: 0;
+  width: 100%;
+}
+
+.selectInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.effortInput {
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.effortInput::-webkit-outer-spin-button,
+.effortInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.effortInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.effortInputError {
+  border-color: var(--color-error);
+}
+
+.effortInputError:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error) 25%, transparent);
+}
+
+.derivedValue {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.derivedValue:focus {
+  color: var(--color-text);
+  font-style: normal;
+}
+
+.removeEdgeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.removeEdgeButton:hover {
+  color: var(--color-error);
+  background: var(--color-error-bg);
+  border-color: var(--color-error-border);
+}
+
+.removeEdgeButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 1px;
+}
+
+.emptyEdges {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Add Edge Form                                                               */
+/* --------------------------------------------------------------------------- */
+
+.addEdgeForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: stretch;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--color-border);
+}
+
+.addEdgeField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.addEdgeEffortField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Validation Summary                                                          */
+/* --------------------------------------------------------------------------- */
+
+.validationSummary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-background);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+}
+
+.validationItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+}
+
+.validationPass {
+  color: var(--color-success);
+}
+
+.validationFail {
+  color: var(--color-error);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Notification                                                                */
+/* --------------------------------------------------------------------------- */
+
+.notification {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8125rem;
+  color: var(--color-warning-text);
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive — Tablet+ (768px)                                                */
+/* --------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .nodesSection,
+  .edgesSection {
+    padding: var(--space-6);
+  }
+
+  .desktopOnly {
+    display: block;
+  }
+
+  .mobileOnly {
+    display: none;
+  }
+
+  .addNodeForm {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .addButton {
+    width: auto;
+    text-align: left;
+  }
+
+  .addEdgeForm {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .addEdgeEffortField {
+    width: 100px;
+  }
+
+  .effortInput {
+    width: 100px;
+  }
+
+  .selectInput {
+    width: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive — Desktop (1024px+)                                              */
+/* --------------------------------------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .nodesSection,
+  .edgesSection {
+    padding: var(--space-8);
+  }
+}

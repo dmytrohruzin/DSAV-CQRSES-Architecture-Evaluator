@@ -1,0 +1,27 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    "apps/web": {
+      "entry": ["src/app/**/{page,layout,route,proxy}.{ts,tsx}", "next.config.{js,ts,mjs}"]
+    },
+    "apps/api": {
+      "entry": ["src/main.ts"]
+    },
+    "apps/mobile": {
+      "entry": ["app/**/*.{ts,tsx}"],
+      "ignore": ["eslint.config.js"]
+    },
+    "packages/logger": {}
+  },
+  "ignore": ["turbo/generators/**", "packages/typescript-config/**"],
+  "ignoreDependencies": [
+    "@dbbs/logger",
+    "@nestjs/schematics",
+    "expo-status-bar",
+    "expo-updates",
+    "@testing-library/jest-dom",
+    "pino-pretty",
+    "@vitejs/plugin-react",
+    "ts-node"
+  ]
+}

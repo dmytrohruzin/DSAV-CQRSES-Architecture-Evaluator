@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "group:monorepos", "group:recommended", ":automergeMinor", ":automergeDigest"],
+  "packageRules": [
+    { "matchUpdateTypes": ["patch"], "automerge": true },
+    {
+      "groupName": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "schedule": ["before 9am on Monday"]
+    }
+  ],
+  "rangeStrategy": "pin"
+}

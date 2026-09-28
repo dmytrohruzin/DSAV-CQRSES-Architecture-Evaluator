@@ -1,0 +1,328 @@
+/* =============================================================================
+ * QualityAttributes — Grouped Table + Custom Add Form
+ * ============================================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Attribute Group                                                             */
+/* --------------------------------------------------------------------------- */
+
+.group {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.groupTitle {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-inverse);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-primary-dark);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Table                                                                       */
+/* --------------------------------------------------------------------------- */
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Header row — visually hidden but keeps column structure */
+.tableHeaderRow {
+  display: none;
+}
+
+/* Data rows */
+.tableRow {
+  transition: background-color 0.1s ease;
+}
+
+.tableRow:hover {
+  background: var(--color-background);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Column widths                                                               */
+/* --------------------------------------------------------------------------- */
+
+.colCheckbox,
+.cellCheckbox {
+  width: 42px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.colDelete,
+.cellDelete {
+  width: 40px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.colType,
+.cellType {
+  width: 5.5em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Cell styles                                                                 */
+/* --------------------------------------------------------------------------- */
+
+.table td {
+  padding: var(--space-2) var(--space-2);
+  vertical-align: middle;
+}
+
+.table td:first-child {
+  padding-left: var(--space-3);
+}
+
+.table td:last-child {
+  padding-right: var(--space-3);
+}
+
+.checkbox {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.attrName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.weightCriterion {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+.componentTypeBadge {
+  display: inline-block;
+  padding: 1px var(--space-2);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.badgeOqac {
+  color: var(--color-primary-dark);
+  background: color-mix(in srgb, var(--color-primary-light) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary-light) 40%, transparent);
+}
+
+.badgePsqac {
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+.metricKeys {
+  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.metricKeys code {
+  font: inherit;
+  color: inherit;
+}
+
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0 auto;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.deleteButton:hover {
+  color: var(--color-error);
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.deleteButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Generated Metric Keys Summary                                               */
+/* --------------------------------------------------------------------------- */
+
+.summary {
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.summaryLabel {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.summaryKeys {
+  display: block;
+  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Add Custom Attribute Section                                                */
+/* --------------------------------------------------------------------------- */
+
+.addSection {
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.addSectionTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.addForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.addField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.addLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.addInput {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+.addInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.addButton {
+  padding: var(--space-2) var(--space-6);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.addButton:hover {
+  background: var(--color-primary-dark);
+}
+
+.addButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive                                                                  */
+/* --------------------------------------------------------------------------- */
+
+.addRow {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.addRow > .addField {
+  flex: 1;
+}
+
+@media (min-width: 768px) {
+  .addSection {
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .addButton {
+    width: auto;
+    align-self: flex-start;
+  }
+}

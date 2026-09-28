@@ -1,0 +1,218 @@
+/* =============================================================================
+ * GraphVisualizer — SVG directed graph with path highlighting
+ * ============================================================================= */
+
+.container {
+  margin-top: var(--space-4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Zoom controls                                                               */
+/* --------------------------------------------------------------------------- */
+
+.controls {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.zoomButton,
+.zoomLevel {
+  height: 28px;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.zoomButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  padding: 0;
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.zoomLevel {
+  min-width: 52px;
+  padding: 0 var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.zoomButton:hover:not(:disabled),
+.zoomLevel:hover {
+  border-color: var(--color-primary);
+}
+
+.zoomButton:focus-visible,
+.zoomLevel:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.zoomButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.panSurface {
+  fill: transparent;
+}
+
+.svgWrapper {
+  padding: var(--space-3);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  min-width: 400px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* SVG Element Styles                                                          */
+/* --------------------------------------------------------------------------- */
+
+.nodeGroup {
+  outline: none;
+}
+
+.nodeRect {
+  fill: var(--color-surface);
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  rx: 8;
+  ry: 8;
+  transition:
+    fill 0.25s ease,
+    stroke 0.25s ease;
+}
+
+.nodeGroup:focus-visible .nodeRect {
+  stroke: var(--color-accent, var(--color-primary));
+  stroke-width: 3.5;
+  stroke-dasharray: 6 3;
+}
+
+.nodeRectHighlighted {
+  fill: var(--color-success-bg);
+  stroke: var(--color-success);
+  stroke-width: 2.5;
+}
+
+.nodeLabel {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--color-text);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  user-select: none;
+}
+
+.nodeLabelHighlighted {
+  fill: var(--color-success-text);
+}
+
+.edgeLine {
+  fill: none;
+  stroke: var(--color-border);
+  stroke-width: 2;
+  transition:
+    stroke 0.25s ease,
+    stroke-width 0.25s ease;
+}
+
+.edgeLineHighlighted {
+  stroke: var(--color-success);
+  stroke-width: 3;
+}
+
+.edgeArrowhead {
+  fill: var(--color-border);
+  transition: fill 0.25s ease;
+}
+
+.edgeArrowheadHighlighted {
+  fill: var(--color-success);
+}
+
+.edgeWeight {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--color-text-secondary);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  user-select: none;
+}
+
+.edgeWeightHighlighted {
+  fill: var(--color-success-text);
+}
+
+.edgeWeightBg {
+  fill: var(--color-surface);
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Empty State                                                                 */
+/* --------------------------------------------------------------------------- */
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: var(--space-8);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive — Tablet+ (768px)                                                */
+/* --------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .svgWrapper {
+    padding: var(--space-4);
+  }
+
+  .svg {
+    min-width: 0;
+  }
+}

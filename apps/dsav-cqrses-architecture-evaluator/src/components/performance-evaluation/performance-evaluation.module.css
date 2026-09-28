@@ -1,0 +1,499 @@
+/* =============================================================================
+ * PerformanceEvaluation — Section 2: Performance Assessment
+ * ============================================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Section Card (reused for scale, results, chart)                             */
+/* --------------------------------------------------------------------------- */
+
+.sectionCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.sectionBody {
+  overflow-x: auto;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Performance Scale Table                                                     */
+/* --------------------------------------------------------------------------- */
+
+.scaleTableWrap {
+  overflow-x: auto;
+}
+
+.scaleTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 320px;
+}
+
+.scaleTable th {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.scaleTable th:first-child {
+  text-align: left;
+}
+
+.scaleTable td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.scaleTable td:first-child {
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.scaleRow {
+  transition: background-color 0.1s ease;
+}
+
+.scaleRow:hover {
+  background: var(--color-background);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Number Inputs                                                               */
+/* --------------------------------------------------------------------------- */
+
+.numberInput {
+  width: 80px;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.numberInput::-webkit-outer-spin-button,
+.numberInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.numberInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.numberInputError {
+  border-color: var(--color-error);
+}
+
+.numberInputError:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error) 25%, transparent);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Scale Action Buttons                                                        */
+/* --------------------------------------------------------------------------- */
+
+.scaleActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.addLevelButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  background: transparent;
+  border: 1px dashed var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.addLevelButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  border-color: var(--color-primary);
+}
+
+.addLevelButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+.removeLevelButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  color: var(--color-error);
+  background: transparent;
+  border: 1px dashed var(--color-error-light);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.removeLevelButton:hover {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+}
+
+.removeLevelButton:focus-visible {
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+}
+
+.removeLevelButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Performance Results Table                                                   */
+/* --------------------------------------------------------------------------- */
+
+.resultsTableWrap {
+  overflow-x: auto;
+}
+
+.resultsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 480px;
+}
+
+.resultsTable th {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.resultsTable th:nth-child(2),
+.resultsTable th:nth-child(4) {
+  text-align: center;
+}
+
+/* Widen the calculation column, keep the score column narrow. */
+.resultsTable th:nth-child(3),
+.resultsTable td:nth-child(3) {
+  width: 45%;
+}
+
+.resultsTable th:nth-child(4),
+.resultsTable td:nth-child(4) {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.resultsTable td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.resultsTable td:nth-child(2) {
+  text-align: center;
+}
+
+.resultsRow {
+  transition: background-color 0.1s ease;
+}
+
+.resultsRow:hover {
+  background: var(--color-background);
+}
+
+.metricNameCell {
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.calculationCell {
+  font-size: 0.8125rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.scoreCell {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.actionsColumn {
+  width: 40px;
+  text-align: center;
+}
+
+.emptyRow {
+  text-align: center;
+  padding: var(--space-4) var(--space-3);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Remove Metric Button                                                        */
+/* --------------------------------------------------------------------------- */
+
+.removeMetricButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-error);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.removeMetricButton:hover {
+  background: var(--color-error-bg);
+  border-color: var(--color-error-light);
+}
+
+.removeMetricButton:focus-visible {
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Add Metric Form                                                             */
+/* --------------------------------------------------------------------------- */
+
+.addMetricRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.addMetricInput {
+  flex: 1;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+.addMetricInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.addMetricResponseTimeInput {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.addMetricResponseTimeInput::-webkit-outer-spin-button,
+.addMetricResponseTimeInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.addMetricResponseTimeInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.addMetricButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  background: transparent;
+  border: 1px dashed var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.addMetricButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  border-color: var(--color-primary);
+}
+
+.addMetricButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+.addMetricButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Screen reader only                                                          */
+/* --------------------------------------------------------------------------- */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Chart                                                                       */
+/* --------------------------------------------------------------------------- */
+
+.chartContainer {
+  position: relative;
+  width: 100%;
+  height: 256px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive — Tablet (768px+)                                                */
+/* --------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .sectionBody {
+    overflow-x: visible;
+  }
+
+  .scaleTable {
+    min-width: 0;
+  }
+
+  .resultsTable {
+    min-width: 0;
+  }
+
+  .numberInput {
+    width: 100px;
+  }
+
+  .chartContainer {
+    height: 320px;
+  }
+
+  .scaleActions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .addLevelButton,
+  .removeLevelButton {
+    width: auto;
+    justify-content: flex-start;
+  }
+
+  .addMetricRow {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .addMetricResponseTimeInput {
+    width: 160px;
+  }
+
+  .addMetricButton {
+    width: auto;
+  }
+}

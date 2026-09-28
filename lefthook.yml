@@ -1,0 +1,55 @@
+pre-commit:
+  parallel: true
+  skip:
+    - ref: ai-*
+    - ref: bot-*
+    - ref: renovate/*
+    - ref: dependabot/*
+  commands:
+    biome:
+      glob: "*.{js,jsx,ts,tsx,json,jsonc,css}"
+      run: node_modules/.bin/biome check --fix --staged --files-ignore-unknown=true
+      stage_fixed: true
+    gitleaks:
+      # Blocks the commit if a likely secret is staged. Skip with --no-verify
+      # only after confirming a false positive. Requires `gitleaks` on PATH:
+      #   brew install gitleaks  /  apt-get install gitleaks  /  see https://github.com/gitleaks/gitleaks
+      # Falls through (warn-only) if gitleaks isn't installed, so it doesn't
+      # block contributors who haven't installed it yet.
+      run: |
+        if command -v gitleaks >/dev/null 2>&1; then
+          gitleaks protect --staged --redact --no-banner
+        else
+          echo "warning: gitleaks not installed; skipping secret scan (see lefthook.yml)"
+        fi
+    branch-check:
+      # Warn-only — does not block the commit. AI/bot branches are skipped above.
+      run: |
+        branch=$(git rev-parse --abbrev-ref HEAD)
+        case "$branch" in
+          main|master|develop|staging|production) ;;
+          feat/*|fix/*|bug/*|chore/*|docs/*|hotfix/*|release/*|refactor/*|test/*) ;;
+          *) echo "warning: branch '$branch' does not follow naming convention (feat/*, fix/*, bug/*, chore/*, docs/*, hotfix/*, release/*, refactor/*, test/*)" ;;
+        esac
+
+commit-msg:
+  commands:
+    commitlint:
+      run: node_modules/.bin/commitlint --edit {1}
+
+pre-push:
+  # Skipped for AI/bot branches (same policy as pre-commit) so WIP pushes
+  # aren't blocked. Bypass a single push with `git push --no-verify`.
+  skip:
+    - ref: ai-*
+    - ref: bot-*
+    - ref: renovate/*
+    - ref: dependabot/*
+  parallel: true
+  commands:
+    check-types:
+      run: node_modules/.bin/turbo run check-types
+    test-coverage:
+      # Local coverage gate — the 80% threshold (enforced by
+      # @dbbs/vitest-config) fails the push before CI does.
+      run: node_modules/.bin/turbo run test:cov

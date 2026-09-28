@@ -1,0 +1,8 @@
+{
+  "extends": "@dbbs/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "paths": { "@/*": ["./src/*"] }
+  },
+  "include": ["next-env.d.ts", "src", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "vitest.config.ts"]
+}

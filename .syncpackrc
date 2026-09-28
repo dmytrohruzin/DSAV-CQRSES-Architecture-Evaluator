@@ -1,0 +1,19 @@
+{
+  "versionGroups": [
+    {
+      "label": "Ignore .version syncing of local workspace packages (consumers intentionally use the '*' wildcard)",
+      "dependencyTypes": ["local"],
+      "isIgnored": true
+    },
+    {
+      "label": "Internal @dbbs/* packages always use the '*' wildcard specifier",
+      "dependencies": ["@dbbs/**"],
+      "pinVersion": "*"
+    },
+    {
+      "label": "Shared deps pinned in root — packages inherit via wildcard",
+      "packages": ["@dbbs/logger", "@dbbs/vitest-config"],
+      "isIgnored": true
+    }
+  ]
+}

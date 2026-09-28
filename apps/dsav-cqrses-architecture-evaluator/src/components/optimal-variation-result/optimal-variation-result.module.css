@@ -1,0 +1,102 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.empty {
+  padding: var(--space-4);
+  text-align: center;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead th {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.numericHeader {
+  text-align: right;
+}
+
+.row td,
+.rowOptimal td,
+.rowSlaUnmet td {
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.rowOptimal {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+}
+
+.rowSlaUnmet {
+  background: color-mix(in srgb, var(--color-error) 6%, transparent);
+  color: var(--color-text-secondary);
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.numericCell {
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.hardwareCell {
+  font-family: var(--font-mono);
+  color: var(--color-text);
+}
+
+.badgeOptimal {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-inverse);
+  background: var(--color-success);
+  border-radius: var(--radius-sm);
+}
+
+.badgeSlaUnmet {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-error);
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+  border-radius: var(--radius-sm);
+}

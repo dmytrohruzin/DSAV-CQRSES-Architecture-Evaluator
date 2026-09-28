@@ -1,0 +1,38 @@
+{
+  "name": "@dbbs/logger",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "default": "./dist/client.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:cov": "vitest run --coverage",
+    "clean": "node -e \"for (const p of ['.turbo', 'node_modules', 'dist', 'tsconfig.tsbuildinfo', 'node_modules', 'coverage']) require('node:fs').rmSync(p, {recursive: true, force: true, maxRetries: 3})\"",
+    "check-types": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "pino": "*",
+    "pino-pretty": "*"
+  },
+  "devDependencies": {
+    "@dbbs/typescript-config": "*",
+    "@dbbs/vitest-config": "*",
+    "@types/node": "*"
+  }
+}

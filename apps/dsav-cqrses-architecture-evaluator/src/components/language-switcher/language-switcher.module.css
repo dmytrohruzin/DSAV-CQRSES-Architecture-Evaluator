@@ -1,0 +1,52 @@
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-text-inverse) 25%, transparent);
+}
+
+.button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: color-mix(in srgb, var(--color-text-inverse) 70%, transparent);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+  line-height: 1;
+}
+
+.button:hover {
+  color: var(--color-text-inverse);
+  background: color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: -2px;
+}
+
+.buttonActive {
+  color: var(--color-primary-dark);
+  background: var(--color-accent);
+  font-weight: 700;
+}
+
+.buttonActive:hover {
+  background: var(--color-accent-light);
+  color: var(--color-primary-dark);
+}
+
+.divider {
+  width: 1px;
+  height: 1rem;
+  background: color-mix(in srgb, var(--color-text-inverse) 25%, transparent);
+}

@@ -1,0 +1,612 @@
+/* =============================================================================
+ * ComplexityTable — Component Cards
+ * ============================================================================= */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Classificator Settings Panel                                                */
+/* --------------------------------------------------------------------------- */
+
+.settingsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.settingsTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.settingsFields {
+  display: flex;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.settingsField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.settingsLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.settingsInput {
+  width: 120px;
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+.settingsInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.settingsInputError {
+  border-color: var(--color-error);
+}
+
+.settingsInputError:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error) 25%, transparent);
+}
+
+.settingsError {
+  font-size: 0.75rem;
+  color: var(--color-error);
+  align-self: flex-end;
+  padding-bottom: var(--space-2);
+}
+
+.autoCalcButton {
+  align-self: flex-end;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  background: transparent;
+  border: 1px solid var(--color-primary-dark);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.autoCalcButton:hover {
+  background: var(--color-primary-dark);
+  color: var(--color-text-inverse);
+}
+
+.autoCalcButton:focus-visible {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Component Card                                                              */
+/* --------------------------------------------------------------------------- */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-3) 0 0;
+  background: var(--color-primary-dark);
+  color: var(--color-text-inverse);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.cardHeader::-webkit-details-marker {
+  display: none;
+}
+
+.cardHeader::marker {
+  display: none;
+  content: "";
+}
+
+.chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem;
+  padding-right: 0.5rem;
+}
+
+.chevron::after {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+
+.card[open] .chevron::after {
+  transform: rotate(45deg);
+}
+
+.cardTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  width: 100%;
+}
+
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-inverse);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-text-inverse) 30%, transparent);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.removeButton:hover {
+  background: color-mix(in srgb, var(--color-text-inverse) 15%, transparent);
+  border-color: var(--color-text-inverse);
+}
+
+.removeButton:focus-visible {
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: 2px;
+}
+
+.cardBody {
+  padding: var(--space-3);
+  overflow-x: auto;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Activity Table                                                              */
+/* --------------------------------------------------------------------------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 420px;
+}
+
+.table th {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.table th:nth-child(2),
+.table th:nth-child(3) {
+  text-align: center;
+}
+
+.table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table td:nth-child(2),
+.table td:nth-child(3) {
+  text-align: center;
+}
+
+.activityRow {
+  transition: background-color 0.1s ease;
+}
+
+.activityRow:hover {
+  background: var(--color-background);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Activity Name & Remove                                                      */
+/* --------------------------------------------------------------------------- */
+
+.activityNameCell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.activityNameInput {
+  flex: 1;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+.activityNameInput:hover {
+  border-color: var(--color-border);
+}
+
+.activityNameInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  background: var(--color-surface);
+}
+
+.removeActivityButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.removeActivityButton:hover {
+  color: var(--color-error);
+  background: var(--color-error-bg);
+  border-color: var(--color-error-border);
+}
+
+.removeActivityButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 1px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Number Inputs                                                               */
+/* --------------------------------------------------------------------------- */
+
+.numberInput {
+  width: 80px;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.numberInput::-webkit-outer-spin-button,
+.numberInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.settingsInput::-webkit-outer-spin-button,
+.settingsInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.settingsInput {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.numberInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.numberInputError {
+  border-color: var(--color-error);
+}
+
+.numberInputError:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error) 25%, transparent);
+}
+
+.inputError {
+  border-color: var(--color-error);
+}
+
+.inputError:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-error) 25%, transparent);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Summary & Total Rows                                                        */
+/* --------------------------------------------------------------------------- */
+
+.summaryRow {
+  background: var(--color-background);
+}
+
+.summaryRow td {
+  padding: var(--space-2) var(--space-3);
+  border-top: 2px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.summaryLabel {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.summaryValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--color-primary-dark);
+  text-align: center;
+}
+
+.errorRow {
+  background: var(--color-error-bg);
+}
+
+.errorLabel {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+.totalRow {
+  background: var(--color-background);
+}
+
+.totalRow td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.totalLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* --------------------------------------------------------------------------- */
+/* Add Activity Button                                                         */
+/* --------------------------------------------------------------------------- */
+
+.addActivityButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  background: transparent;
+  border: 1px dashed var(--color-primary-light);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.addActivityButton:hover {
+  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  border-color: var(--color-primary);
+}
+
+.addActivityButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Add Component Section                                                       */
+/* --------------------------------------------------------------------------- */
+
+.addComponentSection {
+  background: var(--color-surface);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.addComponentTitle {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.addComponentForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.addComponentField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.addComponentLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.addComponentInput {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease;
+}
+
+.addComponentInput:focus {
+  border-color: var(--color-primary-light);
+  outline: none;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-primary-light) 25%, transparent);
+}
+
+.addComponentInputError {
+  border-color: var(--color-error);
+}
+
+.addButton {
+  padding: var(--space-2) var(--space-6);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.addButton:hover {
+  background: var(--color-primary-light);
+}
+
+.addButton:active {
+  transform: scale(0.98);
+}
+
+.addButton:focus-visible {
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------- */
+/* Responsive — Tablet (768px+)                                                */
+/* --------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .cardHeader {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .cardBody {
+    padding: var(--space-4);
+    overflow-x: visible;
+  }
+
+  .table {
+    min-width: 0;
+  }
+
+  .numberInput {
+    width: 100px;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+  }
+
+  .addComponentSection {
+    padding: var(--space-4) var(--space-6);
+  }
+
+  .addComponentForm {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .addButton {
+    width: auto;
+    text-align: left;
+  }
+}

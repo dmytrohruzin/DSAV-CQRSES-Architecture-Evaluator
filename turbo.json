@@ -1,0 +1,76 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalDependencies": [".env", ".env.example", "biome.json", "tsconfig.json"],
+  "globalEnv": [
+    "NODE_ENV",
+    "CI",
+    "GITHUB_ACTIONS",
+    "VERCEL",
+    "VERCEL_ENV",
+    "SKIP_TYPE_CHECK",
+    "LOG_LEVEL",
+    "PORT",
+    "CORS_ORIGIN",
+    "DATABASE_URL",
+    "REDIS_URL",
+    "NEXT_PUBLIC_APP_URL",
+    "NEXT_PUBLIC_API_URL",
+    "TURBO_TOKEN",
+    "TURBO_TEAM",
+    "SONAR_TOKEN"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build", "check-types"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".next/**", "build/**"]
+    },
+    "@dbbs/vitest-config#build": {
+      "dependsOn": ["^build", "check-types"],
+      "outputs": []
+    },
+    "@dbbs/mobile#build": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "lint": {
+      "inputs": ["$TURBO_DEFAULT$", "biome.json"],
+      "outputs": []
+    },
+    "lint:fix": { "cache": false },
+    "check-types": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "tsconfig*.json"],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "start": { "cache": false, "persistent": true, "dependsOn": ["build"] },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.*"],
+      "outputs": [],
+      "outputLogs": "new-only"
+    },
+    "test:cov": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest.config.*"],
+      "outputs": ["coverage/**"],
+      "outputLogs": "new-only"
+    },
+    "test:integration": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "vitest*.config.*"],
+      "outputs": [],
+      "cache": false
+    },
+    "e2e": { "dependsOn": ["build", "@dbbs/api#build"], "cache": false },
+    "@dbbs/mobile#e2e": { "dependsOn": ["@dbbs/web#e2e", "build", "@dbbs/api#build"], "cache": false },
+    "e2e:ui": { "dependsOn": ["build", "@dbbs/api#build"], "cache": false, "persistent": true },
+    "clean": { "cache": false }
+  }
+}

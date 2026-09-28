@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "anthropic.claude-code",
+    "coderabbit.coderabbit-vscode",
+    "ms-vscode-remote.remote-containers",
+    "vitest.explorer"
+  ]
+}
