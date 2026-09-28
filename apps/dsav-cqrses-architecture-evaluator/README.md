@@ -49,7 +49,7 @@ The UI ships in English and Ukrainian; the switcher is in the header and the cho
 ```bash
 npm run test          # Vitest — unit + component (jsdom)
 npm run test:cov      # with coverage (80% gate)
-npm run e2e           # Playwright — Chromium, Firefox, WebKit
+npm run e2e           # Playwright — Chromium, WebKit
 npm run e2e:ui        # Playwright UI mode
 ```
 

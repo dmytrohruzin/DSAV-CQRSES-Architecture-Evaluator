@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test'
 
+import { DEFAULT_SLA_PARAMETERS } from '../src/data/default-sla-parameters'
+
 test.describe('Variation Selection page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/variation-selection')
@@ -22,13 +24,7 @@ test.describe('Variation Selection page', () => {
   })
 
   test('default SLA parameters preset is rendered', async ({ page }) => {
-    for (const name of [
-      'Error rate',
-      'p95 Queries',
-      'p95 Create commands',
-      'p95 Update commands',
-      'p95 Consistency achievement'
-    ]) {
+    for (const { name } of DEFAULT_SLA_PARAMETERS) {
       await expect(page.getByLabel(`SLA name — ${name}`)).toBeVisible()
     }
   })
@@ -72,7 +68,9 @@ test.describe('Variation Selection page', () => {
 
   test('an impossible SLA threshold flags every row as SLA not met', async ({ page }) => {
     const slaSection = page.getByRole('region', { name: 'SLA Parameters' })
-    const errorRateThreshold = slaSection.getByLabel('Threshold — Error rate')
+    const errorRate = DEFAULT_SLA_PARAMETERS.find((p) => p.id === 'errorRatePct')
+    if (!errorRate) throw new Error('errorRatePct is missing from DEFAULT_SLA_PARAMETERS')
+    const errorRateThreshold = slaSection.getByLabel(`Threshold — ${errorRate.name}`)
 
     await errorRateThreshold.fill('0')
     await errorRateThreshold.blur()

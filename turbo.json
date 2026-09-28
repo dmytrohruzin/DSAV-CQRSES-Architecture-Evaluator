@@ -68,9 +68,8 @@
       "outputs": [],
       "cache": false
     },
-    "e2e": { "dependsOn": ["build", "@dbbs/api#build"], "cache": false },
-    "@dbbs/mobile#e2e": { "dependsOn": ["@dbbs/web#e2e", "build", "@dbbs/api#build"], "cache": false },
-    "e2e:ui": { "dependsOn": ["build", "@dbbs/api#build"], "cache": false, "persistent": true },
+    "e2e": { "dependsOn": ["build"], "cache": false },
+    "e2e:ui": { "dependsOn": ["build"], "cache": false, "persistent": true },
     "clean": { "cache": false }
   }
 }
